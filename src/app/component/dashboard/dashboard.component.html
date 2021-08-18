@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-lg-3">
+        <div class="small-box bg-navy">
+            <div class="inner ">
+                <h3>5</h3>
+                <h4>Projects</h4>
+            </div>
+            <div class="icon text-light">
+                <i class="right fas fas fa-atlas"></i>
+            </div>
+            <a href="# " class="small-box-footer ">Open Now <i class="fas fa-arrow-circle-right "></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="small-box bg-indigo">
+            <div class="inner ">
+                <h3>52300</h3>
+
+                <h4>Rule Executions</h4>
+            </div>
+            <div class="icon text-light">
+                <i class=" fas fa-bahai"></i>
+            </div>
+            <a href="# " class="small-box-footer ">More info <i class="fas fa-arrow-circle-right "></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="small-box bg-maroon">
+            <div class="inner ">
+                <h3>3 %</h3>
+
+                <h4>Error Percent</h4>
+            </div>
+            <div class="icon text-light">
+                <i class="fas fa-exclamation-triangle "></i>
+            </div>
+            <a href="# " class="small-box-footer ">More info <i class="fas fa-arrow-circle-right "></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="small-box bg-yellow">
+            <div class="inner ">
+                <h3>$234.33</h3>
+
+                <h4>Billing</h4>
+            </div>
+            <div class="icon text-dark">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <a href="# " class="small-box-footer ">More info <i class="fas fa-arrow-circle-right "></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card card-primary card-outline ">
+            <div class="card-header ">
+                <h5 class="m-0 ">Recent Endpoints</h5>
+            </div>
+            <div class="card-body ">
+                <h4 class="card-title ">Invoice Format Service</h4>
+                <p class="card-text">Invoice formatting service - Author : Arun Hariharan</p>
+                <a href="# " class="btn btn-primary ">Explore Docs</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card card-primary card-outline ">
+            <div class="card-header ">
+                <h5 class="m-0 ">Rule Execution Summary</h5>
+            </div>
+            <div class="card-body ">
+                <table datatable class="table row-border hover">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Endpoint URL</th>
+                            <th>Execution Count</th>
+                            <th>Error Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rec of data">
+                            <td><b>{{ rec.serviceName }}</b></td>
+                            <td>{{ rec.endpoint }}</td>
+                            <td>{{ rec.executionCount }}</td>
+                            <td class="text-red">{{rec.errorCount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.col-md-6 -->
+</div>
+<!-- /.row -->
