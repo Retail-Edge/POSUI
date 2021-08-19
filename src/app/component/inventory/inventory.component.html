@@ -1,3 +1,36 @@
-<p>
-  inventory works!
-</p>
+<div class="card card-primary card-outline">
+  <div class="card-header"> Inventory</div>
+  <div class="card-body">
+      <table datatable [dtOptions]="dtOptions" class="table row-border hover">
+          <thead>
+            <tr>
+              <th>Sku</th>
+              <th>Product Description</th>
+              <th>Stock Qty</th>
+              <th>Order Qty</th>
+              <th>Backorder Qty</th>
+              <th>Cost</th>
+              <th>Price</th>
+              <th>Max Price</th>
+              <th>Min Stock Qty</th>
+              <th>Max Stock Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let rec of data">
+                  <td>{{ rec.sku }}</td>
+                  <td>{{ rec.productDescription }}</td>
+                  <td>{{ rec.stockQty }}</td>
+                  <td>{{ rec.orderQty }}</td>
+                  <td>{{ rec.backorderQty }}</td>
+                  <td>{{ rec.unitCost | currency }}</td>
+                  <td>{{ rec.unitPrice | currency }}</td>
+                  <td>{{ rec.maxPrice | currency }}</td>
+                  <td>{{ rec.minimumQty }}</td>
+                  <td>{{ rec.maximumQty }}</td>
+                  
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>  
