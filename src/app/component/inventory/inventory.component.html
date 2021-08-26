@@ -1,36 +1,108 @@
 <div class="card card-primary card-outline">
-  <div class="card-header"> Inventory</div>
-  <div class="card-body">
-      <table datatable [dtOptions]="dtOptions" class="table row-border hover">
-          <thead>
-            <tr>
-              <th>Sku</th>
-              <th>Product Description</th>
-              <th>Stock Qty</th>
-              <th>Order Qty</th>
-              <th>Backorder Qty</th>
-              <th>Cost</th>
-              <th>Price</th>
-              <th>Max Price</th>
-              <th>Min Stock Qty</th>
-              <th>Max Stock Qty</th>
-            </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let rec of data">
-                  <td>{{ rec.sku }}</td>
-                  <td>{{ rec.productDescription }}</td>
-                  <td>{{ rec.stockQty }}</td>
-                  <td>{{ rec.orderQty }}</td>
-                  <td>{{ rec.backorderQty }}</td>
-                  <td>{{ rec.unitCost | currency }}</td>
-                  <td>{{ rec.unitPrice | currency }}</td>
-                  <td>{{ rec.maxPrice | currency }}</td>
-                  <td>{{ rec.minimumQty }}</td>
-                  <td>{{ rec.maximumQty }}</td>
-                  
-              </tr>
-          </tbody>
-      </table>
+  <div class="card-header">Inventory
+    <button class="btn btn-sm btn-primary float-right" type="button" (click)="onAddInventory();">Add New Inventory</button>
   </div>
-</div>  
+  <div class="card-body">
+    <!-- <button class="btn btn-sm btn-success" type="button" (click)="getInventory();">Refresh Data</button> -->
+   
+    <table  class="table table-striped">
+      <thead>
+        <tr>
+          <th style="width:100px;">Sku</th>
+          <th>Product Description</th>
+          <th>Stock Qty</th>
+          <th>Order Qty</th>
+          <th>Backorder Qty</th>
+          <th style="width:150px;">Cost</th>
+          <th style="width:150px;">Max Price</th>
+          <th>Min Stock Qty</th>
+          <th>Max Stock Qty</th>
+          <th style="width:170px;">Last Stock Date</th>
+          <th style="width:170px;">Last Sale Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rec of inventoryList">
+          <td><input type="text" class="form-control form-control-sm" [(ngModel)]="rec.productMaster.skuId" (change)="onUpdateInventory(rec);"/></td>
+          <td><input type="text" class="form-control form-control-sm" [(ngModel)]="rec.productMaster.description" (change)="onUpdateInventory(rec);"/></td>
+          <td>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="rec.inStockQuantity"
+              (change)="onUpdateInventory(rec);"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="rec.orderQuantity"
+              (change)="onUpdateInventory(rec);"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="rec.backOrderQuantity"
+              (change)="onUpdateInventory(rec);"
+            />
+          </td>
+          <td>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="rec.unitCost"
+                (change)="onUpdateInventory(rec);"
+              />
+            </div>
+          </td>
+          <!-- <td>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="rec.unitPrice"
+              />
+            </div>
+          </td> -->
+          <td><div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="rec.maxRetailPrice"
+              (change)="onUpdateInventory(rec);"
+            />
+          </div></td>
+          <td> <input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="rec.minimumQuantity"
+            (change)="onUpdateInventory(rec);"
+          /></td>
+          <td><input
+            type="number"
+            class="form-control form-control-sm"
+            [(ngModel)]="rec.maximumQuantity"
+            (change)="onUpdateInventory(rec);"
+          /></td>
+          <td>{{rec.lastStockDate | date : 'MM/dd/yyyy hh:mm a'}}</td>
+          <td>{{rec.lastSaleDate |  date : 'MM/dd/yyyy hh:mm a'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</div>

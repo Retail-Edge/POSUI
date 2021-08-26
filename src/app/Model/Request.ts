@@ -15,16 +15,24 @@ export interface LineItem
     extPrice? : number
 }
 
+export interface Product
+{
+    skuId : string,
+    id? : number,
+    description : string
+}
+
 export interface Inventory
 {
-    sku : string,
-    productDescription : string,
-    stockQty : number,
-    orderQty : number,
-    backorderQty : number
-    unitCost : number,
-    unitPrice : number,
-    maxPrice : number,
-    minimumQty : number,
-    maximumQty : number
+    productMaster : Product,
+    inStockQuantity? : number,
+    orderQuantity? : number,
+    backOrderQuantity? : number
+    unitCost? : number,
+    unitPrice? : number,
+    maxRetailPrice? : number,
+    minimumQuantity? : number,
+    maximumQuantity? : number,
+    lastSaleDate? : Date,
+    lastStockDate? : Date
 }
