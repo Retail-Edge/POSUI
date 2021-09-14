@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LineItem } from 'src/app/Model/Request';
+import { Inventory, LineItem } from 'src/app/Model/Request';
+import { RetailStoreServices } from 'src/app/service/RetailStoreServices';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-Invoice',
@@ -15,60 +17,89 @@ export class InvoiceComponent implements OnInit {
   shippingPrice: number = 0;
 
   lineItems: LineItem[] = new Array();
+  inventoryList : Inventory[] = [];
+  currentProduct : Inventory = {
+    productMaster : {
 
-  constructor() { }
+    }
+  };
+
+  
+
+  constructor(private service : RetailStoreServices,private toastr: ToastrService) {
+    
+  }
+
+  
+  onSelectProductNewLine(inventory : Inventory,lineItem : LineItem)
+  {
+      lineItem.isAdding = false;
+      lineItem.billedQty = 1;
+      lineItem.inStockQty = inventory.inStockQuantity;
+      lineItem.sku = inventory.productMaster.skuId;
+      lineItem.productDescription = inventory.productMaster.description;
+      lineItem.unitPrice = inventory.maxRetailPrice;
+      lineItem.extPrice = lineItem.unitPrice ? lineItem.unitPrice : 1 * lineItem.billedQty;
+      console.log(this.lineItems);
+      this.calculateAll();
+  }
+  
+
+  onDeleteNewItem()
+  {
+   /*  this.lineItems = this.lineItems.filter( (data : LineItem) => {
+        if(data.isAdding)
+          return false;
+        else
+          return true;  
+    }); */
+  }
+
+  onAddNewLine()
+  {
+     this.lineItems.push({
+       isAdding : true
+     })
+  }
 
   ngOnInit() {
-    this.lineItems = [
-      {
-        sku: "45452-233",
-        productDescription: "Dasani Water Bottle",
-        unitPrice: 5.67,
-        billedQty: 2
-      },
-      {
-        sku: "423112-233",
-        productDescription: "Coke 12 Oz",
-        unitPrice: 2.67,
-        billedQty: 7
-      },
-      {
-        sku: "450932-233",
-        productDescription: "Irish Spring",
-        unitPrice: 3.67,
-        billedQty: 1
-      },
-      {
-        sku: "944367-233",
-        productDescription: "Internet Router",
-        unitPrice: 256.67,
-        billedQty: 1
-      }
-    ];
+    this.service.getAllInventory().subscribe((data : any) => {
+      this.inventoryList = data;
+    });
 
-    this.lineItems.forEach((data: LineItem) => { 
+
+    
+
+   /*  this.lineItems.forEach((data: LineItem) => { 
       data.extPrice = data.billedQty * data.unitPrice;
       this.subtotal+= data.extPrice
     });
 
     this.tax = (9.3/100) * this.subtotal;
     this.shippingPrice = (2.4/100) * this.subtotal;
-    this.totalPrice = this.subtotal + this.tax + this.shippingPrice;
+    this.totalPrice = this.subtotal + this.tax + this.shippingPrice; */
 
   }
 
   onRecalculate(lineItem : LineItem)
   {
-      lineItem.extPrice = lineItem.billedQty * lineItem.unitPrice;
+      lineItem.extPrice = lineItem.billedQty! * lineItem.unitPrice!;
       this.subtotal = 0;
       this.lineItems.forEach((data: LineItem) => { 
-        data.extPrice = data.billedQty * data.unitPrice;
+        data.extPrice = data.billedQty! * data.unitPrice!;
         this.subtotal+= data.extPrice
       });
   
-      this.tax = (9.3/100) * this.subtotal;
-      this.shippingPrice = (2.4/100) * this.subtotal;
+      this.tax = (7.0/100) * this.subtotal;
+      this.shippingPrice = (1/100) * this.subtotal;
       this.totalPrice = this.subtotal + this.tax + this.shippingPrice;
+  }
+
+  calculateAll()
+  {
+    this.lineItems.forEach((lineItem : LineItem) => {
+      this.onRecalculate(lineItem);
+    });
   }
 
 }

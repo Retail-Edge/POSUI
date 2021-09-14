@@ -65,26 +65,42 @@
             <tr>
               <th>SKU #</th>
               <th>Product Description</th>
-              <th>Qty</th>
+              <th>Bill Qty / Available Qty</th>
               <th>Unit Price</th>
               <th>Ext Price</th>
-              <th>Action <button class="btn btn-success btn-xs"><i class="fas fa-plus"></i></button></th>
+              <th>Action <button class="btn btn-success btn-xs" (click)="onAddNewLine();"><i class="fas fa-plus"></i></button></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let rec of lineItems">
-              <td>{{ rec.sku }}</td>
-              <td>{{ rec.productDescription }}</td>
-              <td>
+              <td *ngIf="rec.isAdding == true" colspan="5">
+               <div class="col-md-11">
+                <select class="form-control form-control-sm" [(ngModel)]="currentProduct" (ngModelChange)="onSelectProductNewLine(currentProduct,rec);">
+                    <option *ngFor="let item of inventoryList" [ngValue]="item">{{item.productMaster.description}}</option>
+                </select>
+              </div> 
+              </td>
+              <td *ngIf="rec.isAdding == true" colspan="1">
+                <div class="col-md-1">
+                  <button type="button" class="btn btn-xs btn-danger" (click)="onDeleteNewItem();">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+              <td *ngIf="rec.isAdding == false">{{ rec.sku }}</td>
+              <td *ngIf="rec.isAdding == false">{{ rec.productDescription }}</td>
+              <td *ngIf="rec.isAdding == false">
+               <div style="display:inline-flex">
                 <input
                   class="form-control form-control-sm"
                   type="number"
-                  style="width: 100px"
+                  style="width: 50px"
                   [(ngModel)]="rec.billedQty"
                   (ngModelChange)="onRecalculate(rec)"
-                />
+                /> <span style="padding:5px;">/ {{ rec.inStockQty }} </span>
+              </div> 
               </td>
-              <td>
+              <td *ngIf="rec.isAdding == false">
                 <input
                   class="form-control form-control-sm"
                   type="number"
@@ -93,8 +109,8 @@
                   (ngModelChange)="onRecalculate(rec)"
                 />
               </td>
-              <td>{{ rec.extPrice | currency }}</td>
-              <td>
+              <td *ngIf="rec.isAdding == false">{{ rec.extPrice | currency }}</td>
+              <td *ngIf="rec.isAdding == false">
                 <button type="button" class="btn btn-xs btn-danger">
                   <i class="fas fa-trash-alt"></i>
                 </button>
@@ -119,10 +135,10 @@
             <tbody>
               <tr>
                 <th style="width: 50%">Subtotal:</th>
-                <td>{{ subtotal | currency }}</td>
+                <th>{{ subtotal | currency }}</th>
               </tr>
               <tr>
-                <th>Tax (9.3%)</th>
+                <th>Tax (7.0%)</th>
                 <td>{{ tax | currency }}</td>
               </tr>
               <tr>
@@ -130,8 +146,8 @@
                 <td>{{ shippingPrice | currency }}</td>
               </tr>
               <tr>
-                <th>Total:</th>
-                <td>{{ totalPrice | currency }}</td>
+                <th>Grand Total:</th>
+                <th>{{ totalPrice | currency }}</th>
               </tr>
             </tbody>
           </table>
@@ -146,7 +162,7 @@
       <div class="col-12">
         <!-- <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a> -->
         <button type="button" class="btn btn-success float-right">
-          <i class="far fa-credit-card"></i> Submit Payment
+          <i class="far fa-credit-card"></i> Create Invoice
         </button>
         <!--  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
           <i class="fas fa-download"></i> Generate PDF

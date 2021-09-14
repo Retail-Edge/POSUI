@@ -8,18 +8,20 @@ export interface ExecutionSummary
 
 export interface LineItem
 {
-    sku : string,
-    productDescription : string,
-    billedQty : number,
-    unitPrice : number,
+    isAdding : boolean,
+    sku? : string,
+    productDescription? : string,
+    billedQty? : number,
+    inStockQty? : number,
+    unitPrice? : number,
     extPrice? : number
 }
 
 export interface Product
 {
-    skuId : string,
+    skuId? : string,
     id? : number,
-    description : string
+    description? : string
 }
 
 export interface Inventory
