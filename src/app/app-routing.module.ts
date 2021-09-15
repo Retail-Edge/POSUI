@@ -8,7 +8,7 @@ import { PurchaseorderComponent } from './component/purchaseorder/purchaseorder.
 import { SupplierComponent } from './component/supplier/supplier.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/invoice', pathMatch: 'full' },
+  { path: '', redirectTo: '/productmaster', pathMatch: 'full' },
   { path : 'dashboard',component : DashboardComponent},
   { path : 'invoice',component:InvoiceComponent},
   { path : 'inventory',component:InventoryComponent},

@@ -59,6 +59,24 @@
 
     <!-- Table row -->
     <div class="row">
+      <ng-template #customItemTemplate let-model="item" let-index="index">
+        <h4> {{model.productMaster.description}}</h4>
+      </ng-template>
+      <!-- <ng-template #customListTemplate let-matches="matches" let-query="query" let-typeaheadTemplateMethods>
+        <ul class="custom-list-group" [class.dropdown-menu]="isBs3">
+          <li class="custom-list-group-item"
+              *ngFor="let match of matches"
+              [class.active]="typeaheadTemplateMethods.isActive(match)"
+              (click)="typeaheadTemplateMethods.selectMatch(match, $event)"
+              (mouseenter)="typeaheadTemplateMethods.selectActive(match)">
+            {{ match.item.productMaster.description }}
+          </li>
+        </ul>
+      </ng-template> -->
+      <input [(ngModel)]="currentProduct" [typeahead]="inventoryList"  placeholder="Click here to add products"
+      [typeaheadMinLength]="0" class="form-control" [typeaheadItemTemplate]="customItemTemplate" [typeaheadScrollable]="true" (typeaheadOnSelect)="onSelect($event)"
+      />
+     
       <div class="col-12 table-responsive">
         <table class="table table-striped">
           <thead>
@@ -75,14 +93,9 @@
             <tr *ngFor="let rec of lineItems">
               <td *ngIf="rec.isAdding == true" colspan="5">
                <div class="col-md-11">
-                <!-- <ng-template #customItemTemplate let-model="item" let-index="index">
-                  <h4> {{model.productMaster.description}}</h4>
-                </ng-template>
-                <input [(ngModel)]="currentProduct" [typeahead]="inventoryList" class="form-control" [typeaheadItemTemplate]="customItemTemplate"
-                (typeaheadOnSelect)="onSelect($event,rec)"/> -->
                 <select class="form-control form-control-sm" [(ngModel)]="currentProduct" (ngModelChange)="onSelectProductNewLine(currentProduct,rec);">
-                    <option *ngFor="let itemdata of inventoryList" [ngValue]="itemdata">{{itemdata.productMaster.description}}</option>
-                </select>
+                  <option *ngFor="let itemdata of inventoryList" [ngValue]="itemdata">{{itemdata.productMaster.description}}</option>
+              </select>
               </div> 
               </td>
               <td *ngIf="rec.isAdding == true" colspan="1">

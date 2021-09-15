@@ -4,6 +4,7 @@ import { RetailStoreServices } from 'src/app/service/RetailStoreServices';
 import { ToastrService } from 'ngx-toastr';
 import { v4 as uuidv4 } from 'uuid';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { isBs3 } from 'ngx-bootstrap/utils';
 
 @Component({
   selector: 'app-Invoice',
@@ -12,6 +13,7 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 })
 export class InvoiceComponent implements OnInit {
 
+  isBs3 = isBs3();
   subtotal : number = 0;
   tax : number = 0;
   totalPrice : number = 0;
@@ -29,8 +31,10 @@ export class InvoiceComponent implements OnInit {
     
   }
 
-  onSelect(event: TypeaheadMatch,lineItem : LineItem): void {
-    this.selectedOption = event.item;
+  onSelect(event: TypeaheadMatch): void {
+    
+      this.selectedOption = event.item;
+      let lineItem : LineItem = { isAdding : false};
       let inventory : Inventory = this.selectedOption;
       lineItem.isAdding = false;
       lineItem.billedQty = 1;
@@ -39,8 +43,10 @@ export class InvoiceComponent implements OnInit {
       lineItem.productDescription = inventory.productMaster.description;
       lineItem.unitPrice = inventory.maxRetailPrice;
       lineItem.extPrice = lineItem.unitPrice ? lineItem.unitPrice : 1 * lineItem.billedQty;
+      this.lineItems.push(lineItem);
       console.log(this.lineItems);
       this.calculateAll();
+      delete this.currentProduct;
   }
   
   onSelectProductNewLine(inventory : Inventory | undefined,lineItem : LineItem)
