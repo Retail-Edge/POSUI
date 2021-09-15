@@ -75,8 +75,13 @@
             <tr *ngFor="let rec of lineItems">
               <td *ngIf="rec.isAdding == true" colspan="5">
                <div class="col-md-11">
+                <!-- <ng-template #customItemTemplate let-model="item" let-index="index">
+                  <h4> {{model.productMaster.description}}</h4>
+                </ng-template>
+                <input [(ngModel)]="currentProduct" [typeahead]="inventoryList" class="form-control" [typeaheadItemTemplate]="customItemTemplate"
+                (typeaheadOnSelect)="onSelect($event,rec)"/> -->
                 <select class="form-control form-control-sm" [(ngModel)]="currentProduct" (ngModelChange)="onSelectProductNewLine(currentProduct,rec);">
-                    <option *ngFor="let item of inventoryList" [ngValue]="item">{{item.productMaster.description}}</option>
+                    <option *ngFor="let itemdata of inventoryList" [ngValue]="itemdata">{{itemdata.productMaster.description}}</option>
                 </select>
               </div> 
               </td>
@@ -161,12 +166,12 @@
     <div class="row no-print">
       <div class="col-12">
         <!-- <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a> -->
-        <button type="button" class="btn btn-success float-right" (click)="onCreateInvoice();">
+        <button type="button" class="btn btn-success float-right" (click)="onCreateInvoice()">
           <i class="far fa-credit-card"></i> Create Invoice
         </button>
-        <!--  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-          <i class="fas fa-download"></i> Generate PDF
-        </button> -->
+         <button type="button" class="btn btn-danger" style="margin-right: 5px;" (click)="resetInvoice()">
+          <i class="fas fa-recycle"></i> Reset Invoice
+        </button>
       </div>
     </div>
   </div>

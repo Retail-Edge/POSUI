@@ -3,6 +3,7 @@ import { Inventory, Invoice, InvoiceLine, LineItem } from 'src/app/Model/Request
 import { RetailStoreServices } from 'src/app/service/RetailStoreServices';
 import { ToastrService } from 'ngx-toastr';
 import { v4 as uuidv4 } from 'uuid';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 @Component({
   selector: 'app-Invoice',
@@ -19,11 +20,8 @@ export class InvoiceComponent implements OnInit {
 
   lineItems: LineItem[] = new Array();
   inventoryList : Inventory[] = [];
-  currentProduct : Inventory = {
-    productMaster : {
-
-    }
-  };
+  currentProduct? : Inventory;
+  selectedOption: any;
 
   
 
@@ -31,9 +29,9 @@ export class InvoiceComponent implements OnInit {
     
   }
 
-  
-  onSelectProductNewLine(inventory : Inventory,lineItem : LineItem)
-  {
+  onSelect(event: TypeaheadMatch,lineItem : LineItem): void {
+    this.selectedOption = event.item;
+      let inventory : Inventory = this.selectedOption;
       lineItem.isAdding = false;
       lineItem.billedQty = 1;
       lineItem.inStockQty = inventory.inStockQuantity;
@@ -43,6 +41,22 @@ export class InvoiceComponent implements OnInit {
       lineItem.extPrice = lineItem.unitPrice ? lineItem.unitPrice : 1 * lineItem.billedQty;
       console.log(this.lineItems);
       this.calculateAll();
+  }
+  
+  onSelectProductNewLine(inventory : Inventory | undefined,lineItem : LineItem)
+  {
+    if( inventory !== undefined)
+    {
+      lineItem.isAdding = false;
+      lineItem.billedQty = 1;
+      lineItem.inStockQty = inventory.inStockQuantity;
+      lineItem.sku = inventory.productMaster.skuId;
+      lineItem.productDescription = inventory.productMaster.description;
+      lineItem.unitPrice = inventory.maxRetailPrice;
+      lineItem.extPrice = lineItem.unitPrice ? lineItem.unitPrice : 1 * lineItem.billedQty;
+      console.log(this.lineItems);
+      this.calculateAll();
+    }
   }
   
 
@@ -80,6 +94,16 @@ export class InvoiceComponent implements OnInit {
       });
   }
 
+  resetInvoice()
+  {
+     this.lineItems = [];
+     this.subtotal = 0;
+     this.tax = 0;
+     this.totalPrice = 0;
+     this.invoiceDate = new Date();
+     this.shippingPrice = 0;
+  }
+
   onDeleteNewItem()
   {
     this.lineItems = this.lineItems.filter( (data : LineItem) => {
@@ -92,6 +116,7 @@ export class InvoiceComponent implements OnInit {
 
   onAddNewLine()
   {
+     delete this.currentProduct;
      this.lineItems.push({
        isAdding : true
      })
