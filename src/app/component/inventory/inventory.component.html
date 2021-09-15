@@ -1,8 +1,90 @@
 <div class="card card-primary card-outline">
   <div class="card-header">Inventory
-    <button class="btn btn-sm btn-primary float-right" type="button" (click)="onAddInventory();">Add New Inventory</button>
+    
   </div>
+
+
   <div class="card-body">
+    <div>
+      <table  class="table table-striped">
+        <thead>
+          <tr>
+            <th style="width:100px;">Sku</th>
+            <th>Product Description</th>
+            <th>Stock Qty</th>
+            <th>Order Qty</th>
+            <th>Backorder Qty</th>
+            <th style="width:150px;">Cost</th>
+            <th style="width:150px;">Max Price</th>
+            <th>Min Stock Qty</th>
+            <th>Max Stock Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="form-control form-control-sm" [(ngModel)]="newinventory.productMaster.skuId"/></td>
+            <td><input type="text" class="form-control form-control-sm" [(ngModel)]="newinventory.productMaster.description"/></td>
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="newinventory.inStockQuantity"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="newinventory.orderQuantity"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="newinventory.backOrderQuantity"
+              />
+            </td>
+            <td>
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="newinventory.unitCost"
+                  
+                />
+              </div>
+            </td>
+            <td><div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newinventory.maxRetailPrice"
+                
+              />
+            </div></td>
+            <td> <input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="newinventory.minimumQuantity"
+            /></td>
+            <td><input
+              type="number"
+              class="form-control form-control-sm"
+              [(ngModel)]="newinventory.maximumQuantity"
+            /></td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <button class="btn btn-sm btn-primary float-right" type="button" (click)="onAddInventory();">Add New Inventory</button>
+    </div>
     <!-- <button class="btn btn-sm btn-success" type="button" (click)="getInventory();">Refresh Data</button> -->
    
     <table  class="table table-striped">

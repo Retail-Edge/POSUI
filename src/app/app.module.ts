@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InvoiceComponent } from './component/Invoice/Invoice.component';
 import { InventoryComponent } from './component/inventory/inventory.component';
+import { ProductMasterComponent } from './component/productMaster/productMaster.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +17,8 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [
     AppComponent,
     InvoiceComponent,
-    InventoryComponent
+    InventoryComponent,
+    ProductMasterComponent
   ],
   imports: [
     BrowserModule,

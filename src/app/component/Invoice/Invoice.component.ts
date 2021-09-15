@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Inventory, LineItem } from 'src/app/Model/Request';
+import { Inventory, Invoice, InvoiceLine, LineItem } from 'src/app/Model/Request';
 import { RetailStoreServices } from 'src/app/service/RetailStoreServices';
 import { ToastrService } from 'ngx-toastr';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-Invoice',
@@ -45,14 +46,48 @@ export class InvoiceComponent implements OnInit {
   }
   
 
+  onCreateInvoice()
+  {
+      let invoice : Invoice = {
+        invoiceId : uuidv4(),
+        invoiceHeader : {
+          date : new Date(),
+          numberOfLines : this.lineItems.length,
+          storeId : "59348383",
+          totalDollarAmount : this.totalPrice
+        },
+        invoiceLines : []
+      }
+
+      this.lineItems.forEach((item : LineItem) => {
+        let invoiceLine : InvoiceLine = {
+          billQuantity : item.billedQty!,
+          extendedPrice : item.extPrice!,
+          productMaster : {
+            skuId : item.sku,
+            description : item.productDescription
+          },
+          unitPrice : item.unitPrice!
+        }
+
+        invoice.invoiceLines.push(invoiceLine);
+      });
+
+      this.service.createInvoice(invoice).subscribe((data : any) => {
+        console.log("Invoice Response : ");
+        console.log(data);
+        this.toastr.success("Invoice Created Successfully : " + invoice.invoiceId, "New Invoice");
+      });
+  }
+
   onDeleteNewItem()
   {
-   /*  this.lineItems = this.lineItems.filter( (data : LineItem) => {
+    this.lineItems = this.lineItems.filter( (data : LineItem) => {
         if(data.isAdding)
           return false;
         else
           return true;  
-    }); */
+    });
   }
 
   onAddNewLine()

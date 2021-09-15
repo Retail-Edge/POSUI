@@ -38,3 +38,25 @@ export interface Inventory
     lastSaleDate? : Date,
     lastStockDate? : Date
 }
+
+export interface InvoiceHeader
+{
+    storeId : string,
+    date : Date,
+    totalDollarAmount : number,
+    numberOfLines : number
+}
+
+export interface InvoiceLine {
+    productMaster : Product,
+    billQuantity : number,
+    unitPrice : number,
+    extendedPrice : number
+}
+
+export interface Invoice 
+{
+    invoiceId : string,
+    invoiceHeader : InvoiceHeader,
+    invoiceLines : InvoiceLine[]
+}

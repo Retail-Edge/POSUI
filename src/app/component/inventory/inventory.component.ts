@@ -12,7 +12,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class InventoryComponent implements OnInit{
 
-  
+  newinventory : Inventory = {
+    productMaster : {
+
+    }
+  };
   inventoryList : Inventory[] = [];
   filter = new FormControl('');
   
@@ -55,14 +59,12 @@ export class InventoryComponent implements OnInit{
   
   onAddInventory()
   {
-    let array : Inventory[] = [{
-      productMaster : {
-        skuId : "",
-        description : ""
-      }
-    }];
-
-    this.inventoryList = array.concat(this.inventoryList);
+     this.newinventory.lastSaleDate = new Date();
+     this.newinventory.lastStockDate = new Date();
+     this.service.addInventory(this.newinventory).subscribe((data : any) => {
+        this.toastr.success("New Inventory Added" , "New Inventory");
+        this.getInventory();
+     });
   }
  
 
