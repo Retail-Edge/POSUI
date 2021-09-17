@@ -81,8 +81,8 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>SKU #</th>
               <th>Product Description</th>
+              <th>SKU #</th>
               <th>Bill Qty / Available Qty</th>
               <th>Unit Price</th>
               <th>Ext Price</th>
@@ -105,8 +105,8 @@
                   </button>
                 </div>
               </td>
-              <td *ngIf="rec.isAdding == false">{{ rec.sku }}</td>
               <td *ngIf="rec.isAdding == false">{{ rec.productDescription }}</td>
+              <td *ngIf="rec.isAdding == false">{{ rec.sku }}</td>
               <td *ngIf="rec.isAdding == false">
                <div style="display:inline-flex">
                 <input
@@ -164,7 +164,7 @@
                 <td>{{ shippingPrice | currency }}</td>
               </tr>
               <tr>
-                <th>Grand gitTotal:</th>
+                <th>Grand Total:</th>
                 <th>{{ totalPrice | currency }}</th>
               </tr>
             </tbody>
